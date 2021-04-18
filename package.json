@@ -1,0 +1,21 @@
+{
+	"name" : "crabtunnel",
+	"version" : "0.0.0",
+	"description" : "Yet Another Simple Proxy Server",
+	"main" : "CrabTunnel",
+	"bin" :
+	{
+		"crabtunnel" : "CLI.js"
+	},
+	"repository" :
+	{
+		"type" : "git",
+		"url" : "git+https://github.com/ZEDCWT/ZED.CWT.CrabTunnel"
+	},
+	"author" : "ZED.CWT",
+	"license" : "MIT",
+	"dependencies" :
+	{
+		"@zed.cwt/wish" : ">=0.4.10"
+	}
+}
