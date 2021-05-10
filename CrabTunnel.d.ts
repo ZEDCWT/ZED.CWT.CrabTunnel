@@ -12,7 +12,7 @@ declare module CrabTunnelNS
 			OnReq?<U = boolean>(Req : HTTP.IncomingMessage,Res : HTTP.ServerResponse) : U
 			OnReqReq?(Req : HTTP.ClientRequest) : any
 			OnReqRes?(Res : HTTP.ServerResponse,Code : number,Message : string) : any
-			OnConn?<U = boolean>(Res : HTTP.IncomingMessage,Soc : Net.Socket,Head : Buffer) : U
+			OnConn?<U = boolean>(Req : HTTP.IncomingMessage,Soc : Net.Socket,Head : Buffer) : U
 			OnConnProxy?(Req : HTTP.ClientRequest) : any
 		}) : HTTP.Server
 	}
