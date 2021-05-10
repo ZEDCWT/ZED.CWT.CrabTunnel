@@ -31,15 +31,29 @@ module.exports = Option =>
 	OnConn = Option.OnConn,
 	OnConnProxy = Option.OnConnProxy,
 
+	PerReqProxy,
+	PerReqInit = () =>
+	{
+		PerReqProxy = Proxy
+	},
+	PerReq =
+	{
+		Proxy : P =>
+		{
+			PerReqProxy = P ? WN.ReqPU(P) : null
+		},
+	},
+
 	ServerOnReq = (Q,S) =>
 	{
 		var
 		Head = (Q,S) => {for (var F = 0;F < Q.length;) S(Q[F++],Q[F++])},
 		End,
 		T;
+		PerReqInit()
 		if (OnReq)
 		{
-			T = OnReq(Q,S)
+			T = OnReq(Q,S,PerReq)
 			if (true === T) return
 			if (false === T)
 			{
@@ -61,7 +75,7 @@ module.exports = Option =>
 			AC : true,
 			TO : false,
 			Red : false,
-			Pro : Proxy || false,
+			Pro : PerReqProxy || false,
 			GZ : false,
 			OnD : D => S.writable && S.write(D),
 			OnE : () => S.writable && S.end(),
@@ -98,9 +112,10 @@ module.exports = Option =>
 			R && R.destroy()
 		},
 		T;
+		PerReqInit()
 		if (OnConn)
 		{
-			T = OnConn(Q,S,H)
+			T = OnConn(Q,S,H,PerReq)
 			if (true === T) return
 			if (false === T) return End()
 		}
@@ -112,14 +127,14 @@ module.exports = Option =>
 			.once('error',WW.O)
 			.once('close',End)
 
-		if (Proxy)
+		if (PerReqProxy)
 		{
-			R = ('https:' === Proxy.protocol ? HTTPS : HTTP).request(WW.Merge(false,
+			R = ('https:' === PerReqProxy.protocol ? HTTPS : HTTP).request(WW.Merge(false,
 			{
 				method : 'CONNECT',
 				path : Q.url,
 				agent : false,
-			},Proxy)).once('connect',(Res,Soc) =>
+			},PerReqProxy)).once('connect',(Res,Soc) =>
 			{
 				R.removeAllListeners()
 				if (200 === Res.statusCode)

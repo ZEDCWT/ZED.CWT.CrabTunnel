@@ -50,9 +50,13 @@ CrabTunnel(
 	+ `Port?` : `number | (number | string)[]`. The number for port to listen, or an array to be applied by listen function.
 	+ `Server?` : `import('http').Server`. The custom server object, will handle `request` and `connect` events on it.
 	+ `Proxy?` : `string | import('http').RequestOptions`. The proxy server for the next hop. You may add additional headers when passing an object.
-	+ `OnReq?` : `<U = boolean>(Req : import('http').IncomingMessage,Res : import('http').ServerResponse) => U`. Function to be called when a proxy request initiated through the `request` event. Return `false` to reject the request, or `true` to take over control of the request.
+	+ `OnReq?` : `<U = boolean>(Req : import('http').IncomingMessage,Res : import('http').ServerResponse,Tool : ReqTool) => U`. Function to be called when a proxy request initiated through the `request` event. Return `false` to reject the request, or `true` to take over control of the request.
 	+ `OnReqReq?` : `(Req : import('http').ClientRequest) => any`. Function to be called when a request object is created. You may add additional headers to send.
 	+ `OnReqRes?` : `(Res : import('http').ServerResponse,Code : number,Message : string) => any`. Function to be called before forwarding the responsed headers. You may modify the headers or the status to send. The original responsed status will be forwarded if the header is not sent after invoking this function.
-	+ `OnConn?` : `<U = boolean>(Req : import('http').IncomingMessage,Soc : import('net').Socket,Head : Buffer) => U`. Function to be called when a proxy request initiated through the `connect` event. Return `false` to reject the request, or `true` to take over control of the request.
+	+ `OnConn?` : `<U = boolean>(Req : import('http').IncomingMessage,Soc : import('net').Socket,Head : Buffer,Tool : ReqTool) => U`. Function to be called when a proxy request initiated through the `connect` event. Return `false` to reject the request, or `true` to take over control of the request.
 	+ `OnConnProxy?` : `(Req : import('http').ClientRequest) => any`. Function to be called when a request to the proxy server of the next hop using `CONNECT` method. You may add additional headers and/or body data. The request will be automatically sent after invoking this function.
 + Returns : `import('http').Server`
+
+### ReqTool : object
+A tool object passes through `OnReq` & `OnConn` to control behaviour of the current request, including the following members.
++ `Proxy` : `(Target? : string | HTTP.RequestOptions) => void`. Set the proxy server for the next hop.
