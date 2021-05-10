@@ -134,6 +134,7 @@ module.exports = Option =>
 				method : 'CONNECT',
 				path : Q.url,
 				agent : false,
+				setHost : false,
 			},PerReqProxy)).once('connect',(Res,Soc) =>
 			{
 				R.removeAllListeners()
