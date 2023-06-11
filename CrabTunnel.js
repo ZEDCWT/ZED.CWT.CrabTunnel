@@ -150,14 +150,23 @@ module.exports = Option =>
 			OnConnProxy && OnConnProxy(R)
 			R.writableEnded || R.end()
 		}
-		else R = Net.createConnection(+T[2],T[1])
+		else R = Net.connect(
+		{
+			port : +T[2],
+			host : T[1],
+			autoSelectFamilyAttemptTimeout : 1E3,
+		})
 			.once('connect',() =>
 			{
 				S.write(ConnHeader)
 				S.pipe(R).pipe(S)
 			})
 		R
-			.once('error',WW.O)
+			/*
+				github.com/nodejs/node/issues/48426
+				It is not trustable that close event will always be emitted...
+			*/
+			.once('error',End)
 			.once('close',End)
 	};
 
