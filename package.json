@@ -1,6 +1,6 @@
 {
 	"name" : "crabtunnel",
-	"version" : "0.0.2",
+	"version" : "0.0.3",
 	"description" : "Yet Another Simple Proxy Server",
 	"main" : "CrabTunnel",
 	"bin" :
@@ -16,6 +16,6 @@
 	"license" : "MIT",
 	"dependencies" :
 	{
-		"@zed.cwt/wish" : ">=0.4.13"
+		"@zed.cwt/wish" : ">=0.7.9"
 	}
 }
