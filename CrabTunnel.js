@@ -40,7 +40,7 @@ module.exports = Option =>
 	{
 		Proxy : P =>
 		{
-			PerReqProxy = P ? WN.ReqPU(P) : null
+			PerReqProxy = P
 		},
 	},
 
@@ -75,7 +75,7 @@ module.exports = Option =>
 			AC : true,
 			TO : false,
 			Red : false,
-			Pro : PerReqProxy || false,
+			Pro : PerReqProxy ? WN.ReqPU(PerReqProxy) : false,
 			GZ : false,
 			OnD : D => S.writable && S.write(D),
 			OnE : () => S.writable && S.end(),
@@ -127,8 +127,10 @@ module.exports = Option =>
 			.once('error',WW.O)
 			.once('close',End)
 
+		PerReqProxy = PerReqProxy ? WN.ReqPU(PerReqProxy) : null
 		if (PerReqProxy)
 		{
+			PerReqProxy = WN.ReqUO(PerReqProxy)
 			R = ('https:' === PerReqProxy.protocol ? HTTPS : HTTP).request(WW.Merge(false,
 			{
 				method : 'CONNECT',
@@ -169,8 +171,6 @@ module.exports = Option =>
 			.once('error',End)
 			.once('close',End)
 	};
-
-	Proxy = Proxy ? WN.ReqPU(Proxy) : null
 
 	Server.on('request',ServerOnReq)
 		.on('connect',ServerOnConn)
