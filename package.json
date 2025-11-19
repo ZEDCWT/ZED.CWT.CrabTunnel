@@ -10,7 +10,7 @@
 	"repository" :
 	{
 		"type" : "git",
-		"url" : "git+https://github.com/ZEDCWT/ZED.CWT.CrabTunnel"
+		"url" : "git+https://github.com/ZEDCWT/ZED.CWT.CrabTunnel.git"
 	},
 	"author" : "ZED.CWT",
 	"license" : "MIT",
